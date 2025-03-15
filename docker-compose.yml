@@ -1,0 +1,23 @@
+version: '3.3'  # Always define the Compose file version
+
+services:
+  db:
+    image: postgres:latest  # Specify a version for stability
+    restart: always
+    environment:
+      POSTGRES_USER: postgres  # Explicitly define the user
+      POSTGRES_PASSWORD: example
+      POSTGRES_DB: mydatabase  # Define a default database
+    ports:
+      - "5432:5432"  # Expose PostgreSQL port
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer:latest
+    restart: always
+    ports:
+      - "8080:8080"
+
+volumes:
+  pgdata:
