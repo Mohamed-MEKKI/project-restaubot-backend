@@ -14,13 +14,13 @@ def get_all_responses(request):
 
 @api_view(['GET'])
 def get_one_response(request, order_id):
-    menu_item = get_object_or_404(Order, id=order_id)
-    serialized_data = OrderSerializer(menu_item)
+    order = get_object_or_404(Order, id=order_id)
+    serialized_data = OrderSerializer(order)
     return Response(serialized_data.data, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
-def create_menu_item(request):
+def create_order(request):
     serialized_data = OrderSerializer(data=request.data)
 
     if serialized_data.is_valid():
@@ -31,9 +31,9 @@ def create_menu_item(request):
 
 
 @api_view(['PUT'])
-def update_menu_item(request, order_id):
-    menu_item = get_object_or_404(Order, id=order_id)
-    serialized_data = OrderSerializer(menu_item, data=request.data)
+def update_order(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    serialized_data = OrderSerializer(order, data=request.data)
 
     if serialized_data.is_valid():
         serialized_data.save()
@@ -43,7 +43,7 @@ def update_menu_item(request, order_id):
 
 
 @api_view(['DELETE'])
-def delete_menu_item(request, order_id):
-    menu_item = get_object_or_404(Order, id=order_id)
-    menu_item.delete()
+def delete_order(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    order.delete()
     return Response({"message": "Order deleted successfully"}, status=status.HTTP_200_OK)

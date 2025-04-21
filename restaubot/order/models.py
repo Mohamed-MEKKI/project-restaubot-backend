@@ -12,6 +12,18 @@ class Order(models.Model):
     status = models.CharField(max_length=20, default='pending')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('confirmed', 'Confirmed'),
+        ('shipped', 'Shipped'),
+        ('delivered', 'Delivered'),
+        ('cancelled', 'Cancelled'),
+    ]
 
     def __str__(self):
         return self.name
+
+    def update_status(self, new_status, updated_at=None):
+        if new_status != self.status:
+            self.status = new_status
+            self.save()
