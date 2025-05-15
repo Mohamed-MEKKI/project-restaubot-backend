@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from order.models import Order
-from order.serializers import OrderSerializer
+from order.serializers import OrderSerializer, UpdateOrderSerializer
 
 @api_view(['GET'])
 def get_all_responses(request):
@@ -14,7 +14,7 @@ def get_all_responses(request):
 
 @api_view(['GET'])
 def get_one_response(request, order_id):
-    order = get_object_or_404(Order, id=order_id)
+    order = get_object_or_404(Order, order_id=order_id)
     serialized_data = OrderSerializer(order)
     return Response(serialized_data.data, status=status.HTTP_200_OK)
 
@@ -32,7 +32,7 @@ def create_order(request):
 
 @api_view(['PUT'])
 def update_order(request, order_id):
-    order = get_object_or_404(Order, id=order_id)
+    order = get_object_or_404(Order, order_id=order_id)
     serialized_data = OrderSerializer(order, data=request.data)
 
     if serialized_data.is_valid():
@@ -44,6 +44,6 @@ def update_order(request, order_id):
 
 @api_view(['DELETE'])
 def delete_order(request, order_id):
-    order = get_object_or_404(Order, id=order_id)
+    order = get_object_or_404(Order, order_id=order_id)
     order.delete()
     return Response({"message": "Order deleted successfully"}, status=status.HTTP_200_OK)
