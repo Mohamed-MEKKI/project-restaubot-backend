@@ -13,7 +13,7 @@ class restaurants(models.Model):
     hours = models.CharField(max_length=200)
     rating = models.IntegerField()
     reviews = models.CharField(max_length=200)
-    image = models.CharField(max_length=200)
+    image = models.ImageField(upload_to='restaurants/', blank=True, null=True)
     description = models.CharField(max_length=200)
     tags = models.CharField(max_length=200)
     categories = models.CharField(max_length=200)

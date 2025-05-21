@@ -6,7 +6,7 @@ class MenuItem(models.Model):
     cuisine = models.CharField(max_length=100, default='')
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    image = models.CharField(max_length=255)
+    image = models.ImageField(upload_to='menu_items/', blank=True, null=True)
     rating = models.DecimalField(max_digits=5, decimal_places=2, default=0.0)
     inventory_status = models.CharField(max_length=20, default='in_stock')
     created_at = models.DateTimeField(auto_now_add=True)
