@@ -2,6 +2,8 @@ from django.db import models
 
 
 class MenuItem(models.Model):
+
+    id = models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')
     name = models.CharField(max_length=255)
     cuisine = models.CharField(max_length=100, default='')
     description = models.TextField()
@@ -12,9 +14,13 @@ class MenuItem(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['name'], name='unique_menu_item')
+        ]
 
     def __str__(self):
-        return self.name
+        return f"{self.name} ({self.cuisine})"
     
     def update_inventory_status(self, new_status):
         if new_status != self.inventory_status:
