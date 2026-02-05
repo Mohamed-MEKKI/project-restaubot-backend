@@ -23,10 +23,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-!(srmywwblusoyd3(dsl^n)ctc*!cg+7k8h7vez4^yaty0or#x"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(os.getenv("DEBUG", default=0))  # Use environment variable or default to True
 
-ALLOWED_HOSTS = []
 
+ALLOWED_HOSTS =[]
 
 # Application definition
 
@@ -77,22 +77,31 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "restaubot.wsgi.application"
 
+#Email settings
+##uinx zbnf fbnn gtfk             : the gmail pasword
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'hamidhamidou424@gmail.com'
+EMAIL_HOST_PASSWORD = 'uinxzbnffbnngtfk'
 
-# Database
+
+# Database 
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
+import os
 DATABASES = {
     #"default": {
      #   "ENGINE": "django.db.backends.sqlite3",
       #  "NAME": BASE_DIR / "db.sqlite3",
     #},
     "default": {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'mydatabase',
-        'USER': 'postgres',
-        'PASSWORD': 'example',
-        'HOST': 'localhost',  
-        'PORT': '5432',       
+        'ENGINE': 'django.db.backends.postgresql',  # Use environment variable or default to PostgreSQL
+        'NAME': os.getenv('DB_DATABASE'),  # Use environment variable or default to 'restaubot_db'
+        'USER': os.getenv('DB_USER'),  # Use environment variable or default to 'postgres'
+        'PASSWORD': os.getenv('DB_PASSWORD'),  # Use environment variable or default to 'password'
+        'HOST': os.getenv('DB_HOST'),  # Use environment variable or default to localhost
+        'PORT': os.getenv('DB_PORT'),       
     },
 }
 

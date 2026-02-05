@@ -1,15 +1,35 @@
-version: '3.3'  # Always define the Compose file version
+version: '3.3'
 
 services:
+  web:
+    build:
+      context: ./restaubot
+    image: moham21/restaubot_web:latest
+    container_name: restaubot_web
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./restaubot:/usr/src/app
+    working_dir: /usr/src/app  # Ensures manage.py is in the working directory
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./.env
+    depends_on:
+      - db
+
   db:
-    image: postgres:latest  # Specify a version for stability
+    image: postgres:17  # Use a specific version for stability
+    container_name: restaubot_db
     restart: always
     environment:
-      POSTGRES_USER: postgres  # Explicitly define the user
-      POSTGRES_PASSWORD: example
-      POSTGRES_DB: mydatabase  # Define a default database
+      POSTGRES_USER: $PTS_USER
+      POSTGRES_PASSWORD: $PTS_PASSWORD
+      POSTGRES_DB: $PTS_DB
+      #POSTGRES_USER: moham21
+      #POSTGRES_PASSWORD: pu4_YKKfcU3nc*b
+      #POSTGRES_DB: restaubot_database
     ports:
-      - "5432:5432"  # Expose PostgreSQL port
+      - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
 

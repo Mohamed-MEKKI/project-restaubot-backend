@@ -1,10 +1,13 @@
-from django.shortcuts import get_object_or_404
+from django.http import BadHeaderError, HttpResponse, HttpResponseRedirect
+from django.shortcuts import get_object_or_404, redirect
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+from django.core.mail import send_mail, BadHeaderError
+
 
 from restaurants.models import restaurants
-from restaurants.serializers import RestaurantSerializer
+from restaurants.serializers import RestaurantSerializer, ContactMessagesSerializer
 
 @api_view(['GET'])
 def get_all_responses(request):
@@ -46,4 +49,24 @@ def update_restaurant(request, restaurant_id):
 def delete_restaurant(request, restaurant_id):
     restaurant = get_object_or_404(restaurants, id=restaurant_id)
     restaurant.delete()
-    return Response({"message": "Menu item deleted successfully"}, status=status.HTTP_200_OK)
+    return redirect('get all restaurants')
+
+
+@api_view(['POST'])
+def send_email(request):
+    message = request.data.get("message", "")
+    from_email = request.data.get("email", "")
+    if message and from_email:
+        try:
+            send_mail(
+                subject="Test message",
+                message=message,
+                from_email=from_email,
+                recipient_list=[from_email],
+                fail_silently=False
+            )
+        except BadHeaderError:
+            return Response({"error": "Invalid header found."}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"message": "Email sent successfully."}, status=status.HTTP_200_OK)
+    else:
+        return Response({"error": "Make sure all fields are entered and valid."}, status=status.HTTP_400_BAD_REQUEST)

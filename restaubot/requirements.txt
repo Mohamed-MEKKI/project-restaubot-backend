@@ -1,5 +1,8 @@
 psycopg
+psycopg2-binary
 django
 djangorestframework
 Pillow
 drf-yasg
+django-cors-headers
+clerk-django
