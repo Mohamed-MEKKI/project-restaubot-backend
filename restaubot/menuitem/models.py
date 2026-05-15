@@ -4,7 +4,8 @@ from django.db import models
 class MenuItem(models.Model):
 
     id = models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')
-    name = models.CharField(max_length=255)
+    user = models.ForeignKey('user.User', on_delete=models.CASCADE, related_name='menu_items')
+    name = models.CharField(max_length=255, unique=True, null=True, blank=True)
     cuisine = models.CharField(max_length=100, default='')
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
@@ -15,8 +16,8 @@ class MenuItem(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        constraints = [
-            models.UniqueConstraint(fields=['name'], name='unique_menu_item')
+        constraints = [ 
+            models.UniqueConstraint(fields=['name', 'user'], name='unique_menu_item_per_user')
         ]
 
     def __str__(self):

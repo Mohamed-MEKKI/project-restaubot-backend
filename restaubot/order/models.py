@@ -3,20 +3,20 @@ from menuitem.models import MenuItem
 from decimal import Decimal
 
 
-
 class Order(models.Model):
-
     order_id = models.AutoField(primary_key=True)
+    user = models.ForeignKey('user.User', on_delete=models.CASCADE, related_name='orders')
     name = models.CharField(max_length=255)
     email = models.EmailField()
     address = models.CharField(max_length=255)
     phone = models.CharField(max_length=20)
-    menu_item = models.ForeignKey(MenuItem, on_delete=models.CASCADE, to_field="name", null=True, blank=True)
+    menu_item = models.ForeignKey(MenuItem, on_delete=models.CASCADE, null=True, blank=True)
     total = models.DecimalField(max_digits=10, decimal_places=2, editable=False)
     description = models.TextField(blank=True, editable=False)
     status = models.CharField(max_length=20, default='pending')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
     STATUS_CHOICES = [
         ('pending', 'Pending'),
         ('confirmed', 'Confirmed'),
@@ -24,9 +24,10 @@ class Order(models.Model):
         ('delivered', 'Delivered'),
         ('cancelled', 'Cancelled'),
     ]
-
+        
     def __str__(self):
-        return f"Order: {self.menu_item.name} x{self.name} @ {self.total} "
+        item_name = self.menu_item.name if self.menu_item else "N/A"
+        return f"Order: {item_name} x{self.name} @ {self.total}"
 
     def save(self, *args, **kwargs):
         if self.menu_item:
