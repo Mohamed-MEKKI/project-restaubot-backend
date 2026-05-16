@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-!(srmywwblusoyd3(dsl^n)ctc*!cg+7k8h7vez4^yaty0or#x"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = bool(os.getenv("DEBUG", default=0))  # Use environment variable or default to True
+DEBUG = os.getenv("DEBUG", "0") == "1"
 
 
 ALLOWED_HOSTS =[]
@@ -158,6 +158,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:8000",
     "http://127.0.0.1:3000",
     "http://127.0.0.1:8000",
+    "https://restobot-aiqfgv3er-mohamedmekkis-projects.vercel.app",
 ]
 
 # Add additional origins from environment variable if provided
