@@ -9,3 +9,4 @@ clerk-django
 clerk_backend_api
 python-dotenv
 gunicorn
+whitenoise
