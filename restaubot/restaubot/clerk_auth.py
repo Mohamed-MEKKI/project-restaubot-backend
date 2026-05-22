@@ -36,7 +36,6 @@ class ClerkAuthentication(authentication.BaseAuthentication):
             
             with Clerk(bearer_auth=settings.CLERK_API_KEY) as clerk:
                 user_data = clerk.users.get(user_id=request_state.payload["sub"])
-
                 
                 # simplified email extraction
                 email = ""
@@ -50,8 +49,8 @@ class ClerkAuthentication(authentication.BaseAuthentication):
                 print("Extracted name:", name)
 
                 user, _ = User.objects.get_or_create(
-                    clerk_user_id=user_data.id,
-                    defaults={"email": email, "name": name}
+                    user_id=user_data.id,
+                    defaults={"email": email, "name": name, "phone": user_data.phone_numbers[0] if user_data.phone_numbers else ""}
                 )
                 return (user, request_state)
 

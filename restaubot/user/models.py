@@ -2,10 +2,11 @@ from django.db import models
 
 
 class User(models.Model):
-    user_id = models.AutoField(primary_key=True)
-    clerk_user_id = models.CharField(max_length=255, unique=True, null=True, blank=True)
+    user_id = models.CharField(max_length=255, primary_key=True)
     name = models.CharField(max_length=255)
     email = models.EmailField()
+    number_of_orders = models.IntegerField(default=0)
+    status = models.CharField(max_length=50, default='active')
     password = models.CharField(max_length=255, blank=True, default='')
     address = models.CharField(max_length=255, blank=True, default='')
     image = models.ImageField(upload_to='users/', blank=True, null=True)

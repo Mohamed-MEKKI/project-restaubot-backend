@@ -24,7 +24,6 @@ def get_one_response(request, menu_item_id):
 @api_view(['POST'])
 def create_menu_item(request):
     serialized_data = MenuItemSerializer(data=request.data)
-
     if serialized_data.is_valid():
         serialized_data.save(user=request.user)
         return Response(serialized_data.data, status=status.HTTP_201_CREATED)

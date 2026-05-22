@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "analytics",
     "corsheaders",
     "rest_framework",
     "drf_yasg",
@@ -159,7 +160,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:8000",
     "http://127.0.0.1:3000",
     "http://127.0.0.1:8000",
-    ".railway.app",
+    #"http://*.railway.app",
     "https://restobot-aiqfgv3er-mohamedmekkis-projects.vercel.app",
 ]
 
