@@ -154,6 +154,12 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+ALLOWED_HOSTS = [
+    "restaubot-backend-production.up.railway.app",
+    "localhost",
+    "127.0.0.1",
+]
+
 # CORS Configuration - restrict to specific origins for security
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
