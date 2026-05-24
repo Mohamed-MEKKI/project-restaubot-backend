@@ -154,21 +154,17 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-ALLOWED_HOSTS = [
-    "restaubot-backend-production.up.railway.app",
-    "localhost",
-    "127.0.0.1",
-]
-
-# CORS Configuration - restrict to specific origins for security
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://localhost:8000",
-    "http://127.0.0.1:3000",
-    "http://127.0.0.1:8000",
-    "http://restaubot-backend-production.up.railway.app",
-    "https://restobot-aiqfgv3er-mohamedmekkis-projects.vercel.app",
+    "https://restaubot-backend-production.up.railway.app",
 ]
+
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^https://.*\.vercel\.app$",
+]
+
+CORS_ALLOW_CREDENTIALS = True
 
 # Add additional origins from environment variable if provided
 if os.getenv("CORS_ALLOWED_ORIGINS"):

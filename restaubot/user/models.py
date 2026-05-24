@@ -10,7 +10,7 @@ class User(models.Model):
     password = models.CharField(max_length=255, blank=True, default='')
     address = models.CharField(max_length=255, blank=True, default='')
     image = models.ImageField(upload_to='users/', blank=True, null=True)
-    phone = models.CharField(max_length=20, blank=True, default='')
+    phone = models.CharField(max_length=255, blank=True, default='')
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
