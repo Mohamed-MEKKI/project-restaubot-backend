@@ -6,7 +6,7 @@ Pillow
 drf-yasg
 django-cors-headers
 clerk-django
-clerk_backend_api
+clerk-backend-api
 python-dotenv
 gunicorn
 whitenoise

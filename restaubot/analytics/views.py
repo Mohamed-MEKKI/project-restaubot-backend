@@ -6,10 +6,12 @@ from rest_framework.response import Response
 from rest_framework import status
 from menuitem.models import MenuItem
 from order.models import Order
+from restaubot.clerk_auth import ClerkAuthentication
+from rest_framework.decorators import authentication_classes
 
 @api_view(['GET'])
+@authentication_classes([ClerkAuthentication])
 def get_menus_orders_stats(request):
-    # fetch orders belonging to the given user id
     menu_items = MenuItem.objects.filter(user_id=request.user)
     count_menus = menu_items.count()
     orders = Order.objects.filter(user_id=request.user)

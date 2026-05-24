@@ -7,7 +7,11 @@ from rest_framework import status
 from menuitem.models import MenuItem
 from menuitem.serializers import MenuItemSerializer
 
+from restaubot.clerk_auth import ClerkAuthentication
+from rest_framework.decorators import api_view, authentication_classes
+
 @api_view(['GET'])
+@authentication_classes([ClerkAuthentication])
 def get_all_responses(request):
     menu_items = MenuItem.objects.filter(user=request.user)
     serialized_data = MenuItemSerializer(menu_items, many=True)
@@ -15,6 +19,7 @@ def get_all_responses(request):
 
 
 @api_view(['GET'])
+@authentication_classes([ClerkAuthentication])
 def get_one_response(request, menu_item_id):
     menu_item = get_object_or_404(MenuItem, id=menu_item_id, user=request.user)
     serialized_data = MenuItemSerializer(menu_item)
@@ -22,16 +27,18 @@ def get_one_response(request, menu_item_id):
 
 
 @api_view(['POST'])
+@authentication_classes([ClerkAuthentication])
 def create_menu_item(request):
     serialized_data = MenuItemSerializer(data=request.data)
     if serialized_data.is_valid():
         serialized_data.save(user=request.user)
         return Response(serialized_data.data, status=status.HTTP_201_CREATED)
-
+    print(serialized_data.errors)
     return Response(serialized_data.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['PUT'])
+@authentication_classes([ClerkAuthentication])
 def update_menu_item(request, menu_item_id):
     menu_item = get_object_or_404(MenuItem, id=menu_item_id, user=request.user)
     serialized_data = MenuItemSerializer(menu_item, data=request.data)
@@ -43,6 +50,7 @@ def update_menu_item(request, menu_item_id):
     return Response(serialized_data.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['DELETE'])
+@authentication_classes([ClerkAuthentication])
 def delete_menu_item(request):
     ids = json.loads(request.body).get('ids', [])
     menu_item = MenuItem.objects.filter(id__in=ids, user=request.user)
@@ -53,6 +61,7 @@ def delete_menu_item(request):
     return redirect('get_menu_items')  # Redirect to the list of menu items after deletion
 
 @api_view(['DELETE'])
+@authentication_classes([ClerkAuthentication])
 def delete_all_menu_items(request):
     menu_item = MenuItem.objects.filter(user=request.user)
     print(f"Deleting all menu items")
