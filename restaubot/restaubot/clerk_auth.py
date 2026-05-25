@@ -50,7 +50,7 @@ class ClerkAuthentication(authentication.BaseAuthentication):
 
                 user, _ = User.objects.get_or_create(
                     user_id=user_data.id,
-                    defaults={"email": email, "name": name, "phone": user_data.phone_numbers[0] if user_data.phone_numbers else ""}
+                    defaults={"email": email, "name": name, "phone": user_data.phone_numbers[0].phone_number if user_data.phone_numbers else ""}
                 )
                 return (user, request_state)
 
